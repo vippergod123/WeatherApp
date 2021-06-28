@@ -2,7 +2,7 @@ package com.duyts.weatherapp.model
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherResponse(
+data class WeatherForecastResponse(
 
 	@field:SerializedName("city")
 	val city: City? = null,

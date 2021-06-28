@@ -5,5 +5,7 @@ import com.duyts.weatherapp.network.WeatherRequest
 import com.duyts.weatherapp.network.toMap
 
 class AppRepository {
-    suspend fun getProfile(params:WeatherRequest.GetParam) = AppRetrofit.weather.getWeather(params.toMap())
+    suspend fun getWeatherForecast(params:WeatherRequest.GetForecastParam) = AppRetrofit.weather.getWeatherForecast(params.toMap())
+
+    suspend fun getCurrentWeather(params:WeatherRequest.GetCurrentParam) = AppRetrofit.weather.getCurrentWeather(params.toMap())
 }

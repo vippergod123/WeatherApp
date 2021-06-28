@@ -2,6 +2,7 @@ package com.duyts.weatherapp.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.duyts.weatherapp.util.Utils
 class WeatherAdapter(private val context: Context, private val weathers: List<Weather>) :
     RecyclerView.Adapter<WeatherAdapter.Companion.WeatherViewHolder>() {
 
+    private var textSize = 14F
+
     companion object {
         class WeatherViewHolder(v: View) : RecyclerView.ViewHolder(v) {
             val dateTextView: TextView = v.findViewById(R.id.dateTextView)
@@ -22,10 +25,16 @@ class WeatherAdapter(private val context: Context, private val weathers: List<We
             val temperatureTextView: TextView = v.findViewById(R.id.temperatureTextView)
 
             @SuppressLint("SetTextI18n")
-            fun onBindViewHolder(context: Context, item: Weather) {
+            fun onBind(context: Context, item: Weather) {
                 dateTextView.text = "Date: " + Utils.secondToDate(item.dt)
-                temperatureTextView.text = "Average temperature: " +item.temp?.day.toString()
-                pressureTextView.text = "Pressure: " +item.pressure.toString()
+                temperatureTextView.text = "Average temperature: " + item.temp?.day.toString()
+                pressureTextView.text = "Pressure: " + item.pressure.toString()
+            }
+
+            fun onConfigure(textSize: Float) {
+                dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
+                temperatureTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
+                pressureTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize)
             }
         }
 
@@ -39,11 +48,17 @@ class WeatherAdapter(private val context: Context, private val weathers: List<We
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val item = weathers[position]
-        holder.onBindViewHolder(context, item)
+        holder.onBind(context, item)
+        holder.onConfigure(textSize)
     }
 
     override fun getItemCount(): Int {
         return weathers.size
     }
 
+
+    fun setTextSize(textSize: Float) {
+        this.textSize = textSize
+        notifyDataSetChanged()
+    }
 }

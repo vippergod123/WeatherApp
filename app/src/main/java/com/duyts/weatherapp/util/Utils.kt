@@ -37,17 +37,25 @@ object Utils {
         return false
     }
 
-    @SuppressLint("SimpleDateFormat")
+
     fun milisecondsToDate(time: Long): String {
-        val formatter = SimpleDateFormat("EEE, dd-MM-yyyy")
-        val calendar: Calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        calendar.timeInMillis = time.toLong()
-        return formatter.format(calendar.time)
+        return milisecondsToDate(time,"EEE, dd-MM-yyyy")
+    }
+
+    fun secondToDate(time: Long): String {
+        return milisecondsToDate(time* 1000)
+    }
+
+    fun secondToDate(time: Long, format: String): String {
+        return milisecondsToDate(time* 1000, format)
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun secondToDate(time: Long): String {
-        return milisecondsToDate(time* 1000)
+    fun milisecondsToDate(time:Long, format:String):String {
+        val formatter = SimpleDateFormat(format)
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.get(Calendar.YEAR)
+        calendar.timeInMillis = time
+        return formatter.format(calendar.time)
     }
 }

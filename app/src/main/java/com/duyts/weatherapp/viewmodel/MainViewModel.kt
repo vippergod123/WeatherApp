@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.duyts.weatherapp.MainApplication
-import com.duyts.weatherapp.model.WeatherResponse
+import com.duyts.weatherapp.model.CurrentWeatherResponse
+import com.duyts.weatherapp.model.WeatherForecastResponse
 import com.duyts.weatherapp.network.WeatherRequest
 import com.duyts.weatherapp.repository.AppRepository
 import com.duyts.weatherapp.util.Event
@@ -17,41 +17,80 @@ import retrofit2.Response
 import java.io.IOException
 
 
-class MainViewModel(private val app: Application, private val appRepository: AppRepository): ViewModel() {
+class MainViewModel(private val app: Application, private val appRepository: AppRepository) :
+    ViewModel() {
 
-    private val _weather = MutableLiveData<Event<Resource<WeatherResponse>>>()
-    val weather: LiveData<Event<Resource<WeatherResponse>>> = _weather
+    private val _weatherForecast = MutableLiveData<Event<Resource<WeatherForecastResponse>>>()
+    val weatherForecast: LiveData<Event<Resource<WeatherForecastResponse>>> =
+        _weatherForecast
 
-    fun getWeather(location:String, count:Int) = viewModelScope.launch {
+    private val _currentWeather = MutableLiveData<Event<Resource<CurrentWeatherResponse>>>()
+    val currentWeather: LiveData<Event<Resource<CurrentWeatherResponse>>> =
+        _currentWeather
+
+    fun getWeatherForecast(location: String, count: Int) = viewModelScope.launch {
         getWeatherInternal(location, count)
     }
 
+    fun getCurrentWeather(location: String) = viewModelScope.launch {
+        getCurrentWeatherInternal(location)
+    }
 
-    private suspend fun getWeatherInternal(location: String, count: Int) {
-        _weather.postValue(Event(Resource.Loading()))
+    private suspend fun getCurrentWeatherInternal(location: String) {
+        _currentWeather.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(app)) {
-                val response = appRepository.getProfile(WeatherRequest.GetParam(location, count))
+                val response =
+                    appRepository.getCurrentWeather(WeatherRequest.GetCurrentParam(location))
 //                        _profile.postValue(handlePicsResponse(response))
-                _weather.postValue(handleResponse(response))
+                _currentWeather.postValue(handleResponse(response))
             } else {
-                _weather.postValue(Event(Resource.Failed("No internet connection")))
+                _currentWeather.postValue(Event(Resource.Failed("No internet connection")))
             }
         } catch (t: Throwable) {
             t.printStackTrace()
             when (t) {
                 is IOException -> {
-                    _weather.postValue(Event(Resource.Failed("Network error")))
+                    _currentWeather.postValue(Event(Resource.Failed("Network error")))
                 }
                 else -> {
-                    _weather.postValue(Event(Resource.Failed("Network error")))
+                    _currentWeather.postValue(Event(Resource.Failed("Network error")))
                 }
             }
         }
     }
 
 
-    private fun handleResponse(response: Response<WeatherResponse>): Event<Resource<WeatherResponse>> {
+    private suspend fun getWeatherInternal(location: String, count: Int) {
+        _weatherForecast.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(app)) {
+                val response = appRepository.getWeatherForecast(
+                    WeatherRequest.GetForecastParam(
+                        location,
+                        count
+                    )
+                )
+//                        _profile.postValue(handlePicsResponse(response))
+                _weatherForecast.postValue(handleResponse(response))
+            } else {
+                _weatherForecast.postValue(Event(Resource.Failed("No internet connection")))
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            when (t) {
+                is IOException -> {
+                    _weatherForecast.postValue(Event(Resource.Failed("Network error")))
+                }
+                else -> {
+                    _weatherForecast.postValue(Event(Resource.Failed("Network error")))
+                }
+            }
+        }
+    }
+
+
+    private fun <T> handleResponse(response: Response<T>): Event<Resource<T>> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Event(Resource.Success(resultResponse))
