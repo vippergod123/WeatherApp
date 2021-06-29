@@ -16,6 +16,9 @@ import com.duyts.weatherapp.databinding.ActivityMainBinding
 import com.duyts.weatherapp.model.CurrentWeatherResponse
 import com.duyts.weatherapp.model.WeatherForecastResponse
 import com.duyts.weatherapp.repository.AppRepository
+import com.duyts.weatherapp.db.RoomDatabase
+import com.duyts.weatherapp.model.WeatherForecast
+import com.duyts.weatherapp.repository.RoomRepository
 import com.duyts.weatherapp.util.Resource
 import com.duyts.weatherapp.util.Utils
 import com.duyts.weatherapp.viewmodel.MainViewModel
@@ -30,6 +33,7 @@ class MainActivity : BaseActivity() {
     companion object {
         private const val DEFAULT_AUTO_HIDE_SEEKBAR_DURATION: Long = 2000
         private const val DEFAULT_TEXT_VIEW_SIZE = 24;
+        private const val DEFAULT_LOCATION_ID = 524901
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,7 +46,6 @@ class MainActivity : BaseActivity() {
             it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     viewModel.getCurrentWeather(query ?: "")
-                    viewModel.getWeatherForecast(query ?: "", 10)
                     searchIcon.collapseActionView()
                     searchView.clearFocus()
                     return true
@@ -73,8 +76,10 @@ class MainActivity : BaseActivity() {
     override fun initFirst() {
         super.initFirst()
 
-        val repository = AppRepository()
-        val factory = ViewModelProviderFactory(application, repository)
+        val roomRepository = RoomRepository()
+        val repository = AppRepository(roomRepository)
+
+        val factory = ViewModelProviderFactory(application, repository, roomRepository)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
@@ -123,9 +128,8 @@ class MainActivity : BaseActivity() {
     override fun initLogic() {
         super.initLogic()
 
-        viewModel.weatherForecast.observe(this, { it ->
-            it.getContentIfNotHandled().let { response ->
-                val data: WeatherForecastResponse? = response?.data
+        viewModel.weatherForecast.observe(this, { response ->
+                val data: WeatherForecast ? = response?.data
                 when (response) {
                     is Resource.Success -> {
                         viewBinding.run {
@@ -140,7 +144,7 @@ class MainActivity : BaseActivity() {
                     }
                     is Resource.Failed -> {
                         viewBinding.progressBar.visibility = View.GONE
-                        Log.e("CHRIS", response.data.toString())
+                        Log.e("CHRIS", response.message.toString())
                     }
 
                     is Resource.Loading -> {
@@ -148,7 +152,6 @@ class MainActivity : BaseActivity() {
                         viewBinding.progressBar.visibility = View.VISIBLE
                     }
                 }
-            }
         })
 
         viewModel.currentWeather.observe(this, { it ->
@@ -168,9 +171,9 @@ class MainActivity : BaseActivity() {
                                     .load("http://openweathermap.org/img/wn/${data.weather?.get(0)?.icon}@2x.png")
                                     .into(it.currentWeatherImageView)
                             }
-
-
                         }
+
+                        viewModel.getWeatherForecast(data?.id ?: DEFAULT_LOCATION_ID, 10)
                     }
                     is Resource.Failed -> {
                         viewBinding.progressBar.visibility = View.GONE
@@ -185,7 +188,7 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        viewModel.getWeatherForecast("Ho chi minh", 10)
+
         viewModel.getCurrentWeather("Ho chi minh")
     }
 

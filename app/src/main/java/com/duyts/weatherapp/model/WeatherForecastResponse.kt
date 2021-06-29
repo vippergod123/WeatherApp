@@ -1,11 +1,15 @@
 package com.duyts.weatherapp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.duyts.weatherapp.util.WeatherTypeConvertor
 import com.google.gson.annotations.SerializedName
 
-data class WeatherForecastResponse(
 
+data class WeatherForecastResponse(
 	@field:SerializedName("city")
-	val city: City? = null,
+	val city: City ,
 
 	@field:SerializedName("cnt")
 	val cnt: Int? = null,
@@ -17,7 +21,7 @@ data class WeatherForecastResponse(
 	val message: Double? = null,
 
 	@field:SerializedName("list")
-	val list: List<Weather>? = null
+	val list: List<Weather>
 )
 
 data class Temp(

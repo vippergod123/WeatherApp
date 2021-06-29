@@ -3,7 +3,7 @@ package com.duyts.weatherapp.network
 import com.duyts.weatherapp.Constant
 
 class WeatherRequest {
-    data class GetForecastParam(val location: String, val count: Int)
+    data class GetForecastParam(val id: Int, val count: Int)
     data class GetCurrentParam(val location: String)
 }
 
@@ -18,7 +18,7 @@ fun WeatherRequest.GetCurrentParam.toMap(): Map<String, String> {
 
 fun WeatherRequest.GetForecastParam.toMap(): Map<String, String> {
     return mapOf(
-        "q" to location.lowercase(),
+        "id" to id.toString(),
         "cnt" to count.toString(),
         "appid" to Constant.appId
     )

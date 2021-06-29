@@ -21,7 +21,7 @@ class AppRetrofit {
                 .build()
         }
 
-        val weather by lazy {
+        val weather: Endpoint by lazy {
             retrofitLogin.create(Endpoint::class.java)
         }
 

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.duyts.weatherapp.R
 import com.duyts.weatherapp.model.Weather
+import com.duyts.weatherapp.model.WeatherForecast
 import com.duyts.weatherapp.util.Utils
 
 
