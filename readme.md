@@ -20,9 +20,9 @@
 
 In this app, I'm applied 3 pattern are:
 
-- Repository Pattern:
+- Repository Pattern
 - Singleton Pattern
-- Factory Pattern:
+- Factory Pattern
 
 ### Practices
 
@@ -30,6 +30,7 @@ Using the newest SDK, MAD, Material Design.
 Applied Dependency Injection
 Applied MVVM (Google Clean Architecture for android) 
 ![image info](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+
 ## Folder Structure
 
 - Adapter: contains all adapters of recyclerviews 
@@ -49,5 +50,25 @@ There're 2 ways you can install and run the app
 
 - Clone this GIT repository, open Android Studio, then click Run to intsall.
 - You can get app.apk file in this repository then install via ADB or copy to phone via USB.
+
+## Checklist
+
+- [x] Programming language: Kotlin
+- [x] Application's architecture: MVVM
+- [x] LiveData
+- [x] UI looks like attachment
+- [ ] Unit test
+- [x] Exception Handling
+- Secure App from:
+    - [ ] Decompile APK
+    - [ ] Rooted device
+    - [ ] Data transmission via network
+    - [ ] Encryption for sensitive information
+- Accessibility for Disability Supports:
+    - [ ] Talkback
+    - [x] Scaling Text
+- [x] Diagrams
+
+
 
 
