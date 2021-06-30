@@ -1,0 +1,77 @@
+ext {
+    plugin_kotlin_version = '1.3.72'
+    kotlin_version = "$plugin_kotlin_version"
+    lint_version = '26.3.1'
+    crashlytic_version = '17.0.0'
+    stetho_version = '1.5.0'
+    gms_play_services_version = '16.0.0'
+    nav_version = '2.3.0-beta01'
+    room_version = '2.3.0'
+    workmanager = '2.3.4'
+    glide = '4.12.0'
+    lifecycle = '2.3.1'
+    koinVersion = "2.2.0-alpha-1"
+
+    classpathDependencies = [
+            classpath_android_gradle: "com.android.tools.build:gradle:4.0.0",
+            classpath_google_services: "com.google.gms:google-services:4.3.3",
+            classpath_firebase_perf: "com.google.firebase:perf-plugin:1.3.1",
+            classpath_crashlytics: "com.google.firebase:firebase-crashlytics-gradle:2.1.0",
+            classpath_kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$plugin_kotlin_version",
+            classpath_appdistribution: 'com.google.firebase:firebase-appdistribution-gradle:1.4.1',
+
+    ]
+
+    androidx = [
+            annotation: "androidx.annotation:annotation:1.1.0",
+            appcompat: "androidx.appcompat:appcompat:1.3.0",
+            core: "androidx.core:core-ktx:1.5.0",
+            recyclerview: "androidx.recyclerview:recyclerview:1.0.0",
+            constraintlayout: "androidx.constraintlayout:constraintlayout:2.0.4",
+            viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+            lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle",
+            livedata: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle",
+            room_runtime: "androidx.room:room-runtime:$room_version",
+            room_compiler: "androidx.room:room-compiler:$room_version",
+            room_coroutine: "androidx.room:room-ktx:$room_version",
+    ]
+    kotlinDependencies = [
+            stdlib_jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            coroutine: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3"
+    ]
+    common = [
+            koin_core: "org.koin:koin-core:2.1.5",
+            koin_scope: "org.koin:koin-androidx-scope:$koinVersion",
+            koin_viewmodel: "org.koin:koin-androidx-viewmodel:$koinVersion",
+            glide: "com.github.bumptech.glide:glide:$glide",
+            glide_annotation: "com.github.bumptech.glide:compiler:$glide",
+    ]
+
+    network = [
+            okhttp: "com.squareup.okhttp3:okhttp:4.9.0",
+            interceptor: "com.squareup.okhttp3:logging-interceptor:4.8.0",
+            retrofit: "com.squareup.retrofit2:retrofit:2.9.0",
+            coroutine_adapter: 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2',
+            gson: "com.google.code.gson:gson:2.8.6",
+            retrofit_converter_gson: "com.squareup.retrofit2:converter-gson:2.9.0"
+    ]
+
+    leakCanary = [
+            leak_canary: "com.squareup.leakcanary:leakcanary-android:2.4"
+    ]
+
+    test = [
+            junit: "junit:junit:4.13.2",
+            junit_ext: "androidx.test.ext:junit:1.1.2",
+            espresso_core: "androidx.test.espresso:espresso-core:3.3.0",
+            robolectric: "org.robolectric:robolectric:4.3",
+            koin_test: "org.koin:koin-test:2.1.5",
+            coroutine_test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7",
+            mockito_core: "org.mockito:mockito-core:3.3.3",
+            mockito_inline: 'org.mockito:mockito-inline:2.13.0',
+            mockito_kotlin: 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0',
+            mockito_android: 'org.mockito:mockito-android:3.3.3',
+            coroutine_rule: 'com.github.marcinOz:TestCoroutineRule:1.0.1',
+            core: 'androidx.arch.core:core-testing:2.1.0',
+    ]
+}
