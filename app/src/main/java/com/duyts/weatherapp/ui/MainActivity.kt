@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duyts.weather.domain.entity.CurrentWeather
 import com.duyts.weather.domain.repository.ResponseHandler
+import com.duyts.weather.domain.usecase.GetWeathersForecast
 import com.duyts.weatherapp.R
 import com.duyts.weatherapp.adapter.WeatherAdapter
 import com.duyts.weatherapp.databinding.ActivityMainBinding
@@ -147,7 +148,8 @@ class MainActivity : BaseActivity() {
             event.getContentIfNotHandled()?.run {
                 when (this) {
                     is ResponseHandler.Success -> {
-                        viewModel.getWeatherForecast(this.data.id,10)
+                        val param = GetWeathersForecast.GetWeathersForecastParam(this.data.id,10)
+                        viewModel.getWeatherForecast(param)
                         updateCurrentWeatherView(this.data)
                     }
 
@@ -163,7 +165,8 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.getCurrentWeather("Ho chi minh")
-        viewModel.getWeatherForecast(DEFAULT_LOCATION_ID, 10)
+        val getWeathersForecastParam = GetWeathersForecast.GetWeathersForecastParam(DEFAULT_LOCATION_ID, 10)
+        viewModel.getWeatherForecast(getWeathersForecastParam)
     }
 
     private lateinit var autoHideSeekBarRunnable: Runnable

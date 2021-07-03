@@ -61,6 +61,11 @@ dependencies {
 
     //
     testImplementation test.junit
+    testImplementation test.mockito_core
+    testImplementation test.core
+    testImplementation test.coroutine_test
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'// test.mockito_kotlin
+
     androidTestImplementation test.junit_ext
     androidTestImplementation test.espresso_core
 }

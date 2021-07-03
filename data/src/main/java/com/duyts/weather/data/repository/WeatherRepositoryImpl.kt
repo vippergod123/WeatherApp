@@ -27,9 +27,7 @@ class WeatherRepositoryImpl(
         count: Int
     ): ResponseHandler<WeatherForecast> =
         withContext(Dispatchers.IO) {
-            Log.w("CHRIS", "WeatherRepositoryImpl - getWeatherForecast")
             weatherDAO.getWeathersForecast(locationId)?.let {
-                Log.w("CHRIS", "WeatherRepositoryImpl - ALREADY CACHE")
                 return@withContext ResponseHandler.Success(it)
             }
 
@@ -47,7 +45,6 @@ class WeatherRepositoryImpl(
                 is ResponseHandler.Success ->  {
                     val result: WeatherForecast = response.data.toDomainEntity(locationId)
                     weatherDAO.insert(result)
-                    Log.w("CHRIS", "WeatherRepositoryImpl - SAVE TO CACHE")
                     ResponseHandler.Success(result)
                 }
                 is ResponseHandler.Failure -> ResponseHandler.Failure(

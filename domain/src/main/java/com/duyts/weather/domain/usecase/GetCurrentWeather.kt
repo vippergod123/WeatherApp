@@ -5,7 +5,7 @@ import com.duyts.weather.domain.repository.ResponseHandler
 import com.duyts.weather.domain.repository.WeatherRepository
 
 
-class GetCurrentWeather(private val weatherRepository: WeatherRepository) :
+open class GetCurrentWeather(private val weatherRepository: WeatherRepository) :
     BaseUsecase<GetCurrentWeather.GetCurrentWeatherParam, ResponseHandler<CurrentWeather>>() {
 
 

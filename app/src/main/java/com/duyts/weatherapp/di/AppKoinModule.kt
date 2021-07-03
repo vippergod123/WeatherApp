@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 
 val appKoin = module {
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
 }
 
 fun getDI(): List<Module> {

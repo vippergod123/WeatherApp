@@ -1,6 +1,5 @@
 package com.duyts.weatherapp.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
 
 
 class MainViewModel(
-    private val app: Application,
     private val GetWeathersForecast: GetWeathersForecast,
     private val GetCurrentWeather: GetCurrentWeather
 ) :
@@ -30,11 +28,9 @@ class MainViewModel(
     val currentWeather: LiveData<Event<ResponseHandler<CurrentWeather>>> =
         _currentWeather
 
-    fun getWeatherForecast(id: Int, count: Int) = viewModelScope.launch {
+    fun getWeatherForecast(param: GetWeathersForecast.GetWeathersForecastParam) = viewModelScope.launch {
         _weatherForecast.value = Event(ResponseHandler.Loading)
 
-        val param =
-            com.duyts.weather.domain.usecase.GetWeathersForecast.GetWeathersForecastParam(id, count)
         when (val result = GetWeathersForecast.invoke(param)) {
             is ResponseHandler.Success -> _weatherForecast.value =
                 Event(ResponseHandler.Success(result.data))
