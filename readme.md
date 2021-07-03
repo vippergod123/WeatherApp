@@ -26,20 +26,35 @@ In this app, I'm applied 3 pattern are:
 
 ### Practices
 
-Using the newest SDK, MAD, Material Design. 
-Applied Dependency Injection
-Applied MVVM (Google Clean Architecture for android) 
+- Using the newest SDK, MAD, Material Design. 
+- Applied Dependency Injection
+- Applied MVVM (Google Clean Architecture for android) 
 ![image info](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
+- Applied clean architecture 
+![image info](https://github.com/android10/Sample-Data/blob/master/Android-CleanArchitecture/clean_architecture.png?raw=true)
+## Folder Structure: 
 
-## Folder Structure
+Have 3 main module: App, Domain, Data, represent for solving specific tasks, have 1 main folder structure
 
-- Adapter: contains all adapters of recyclerviews 
-- Model: contains all objects need to use while appilication running (Ex: WeatherResponse, WeatherItem, etc...)
-- Network: contains networks handlers (retrofit, endpoint api, request body, etc...)
+- DI: contains all adapters of recyclerviews 
+- Model (entity): contains all objects need to be used 
+    -  Object receivce from service (in Data module)
+    -  Object be handled after received from service or save, or get from ROOM database (entity in Domain module)
 - Repository: contains repositories to get data from service or room database
-- Ui: contains screens of application 
 - Util: contains tools for wrapping, pre-processing, and classifying data.
-- Viewmodel: contains viewmodel, receiving events, getting data from repositories and return data to Ui
+
+
+And each module has some specific folder of their own:
+- App:
+    - Adapter: contains all adapters of recyclerviews 
+    - Viewmodel: contains viewmodel, receiving events, getting data from repositories and return data to Ui
+    - Ui: contains screens of application 
+- Domain:
+    - usecase: contains behaviour app should be doing (GetWeatherForecast, GetCurrentWeather, v.v...)
+    - exception: contains self-declaring exceptions 
+- Data:
+    - source: contains Endpoint of API, or ROOM database 
+    
 
 ## Libraries, module, and frameworks
 
@@ -57,7 +72,7 @@ There're 2 ways you can install and run the app
 - [x] Application's architecture: MVVM
 - [x] LiveData
 - [x] UI looks like attachment
-- [ ] Unit test
+- [x] Unit test
 - [x] Exception Handling
 - Secure App from:
     - [ ] Decompile APK
